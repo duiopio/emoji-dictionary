@@ -28,9 +28,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = emojis[indexPath.row]
-        return cell
+        let cell = UITableViewCell() // Crea una variabile che contiene gli elementi base della UITableViewCell
+        cell.textLabel?.text = emojis[indexPath.row] // Cambia il valore della cella in quello di un elemento dell'array
+        return cell // Mostra il contenuto della cella
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true) // Deseleziona la cella che abbiamo cliccato
+        let emoji = emojis[indexPath.row] // Crea una variabile che acquisisce lo stesso valore dell'elemento selezionato
+        performSegue(withIdentifier: "moveSegue", sender: emoji) // Attiva il "segue" e manda il valore emoji al secondo viewController
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: (Any)?) {
+        let dVC = segue.destination as! DefinitionViewController
+        dVC.emoji = sender as! String
     }
     
     override func didReceiveMemoryWarning() {
